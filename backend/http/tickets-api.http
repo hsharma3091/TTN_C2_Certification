@@ -1,0 +1,89 @@
+### Support Tickets API — IntelliJ HTTP Client
+### Run TicketsApplication, then click the green play icon next to each request.
+
+@baseUrl = http://localhost:8080
+@ticketId = 1
+
+### Create ticket
+# @name createTicket
+POST {{baseUrl}}/api/v1/tickets
+Content-Type: application/json
+
+{
+  "title": "Login broken",
+  "description": "Users cannot reset password",
+  "priority": "HIGH",
+  "assignee": "alice@example.com"
+}
+
+> {%
+    client.global.set("ticketId", response.body.id);
+%}
+
+### List all tickets
+GET {{baseUrl}}/api/v1/tickets
+
+### List — filter by status
+GET {{baseUrl}}/api/v1/tickets?status=OPEN
+
+### List — search keyword
+GET {{baseUrl}}/api/v1/tickets?q=login
+
+### Get ticket by id
+GET {{baseUrl}}/api/v1/tickets/{{ticketId}}
+
+### Update ticket (partial)
+PATCH {{baseUrl}}/api/v1/tickets/{{ticketId}}
+Content-Type: application/json
+
+{
+  "priority": "URGENT",
+  "assignee": "bob@example.com"
+}
+
+### Transition OPEN → IN_PROGRESS
+POST {{baseUrl}}/api/v1/tickets/{{ticketId}}/transitions
+Content-Type: application/json
+
+{
+  "status": "IN_PROGRESS"
+}
+
+### Transition IN_PROGRESS → RESOLVED
+POST {{baseUrl}}/api/v1/tickets/{{ticketId}}/transitions
+Content-Type: application/json
+
+{
+  "status": "RESOLVED"
+}
+
+### Transition RESOLVED → CLOSED
+POST {{baseUrl}}/api/v1/tickets/{{ticketId}}/transitions
+Content-Type: application/json
+
+{
+  "status": "CLOSED"
+}
+
+### Invalid transition (expect 409)
+POST {{baseUrl}}/api/v1/tickets/{{ticketId}}/transitions
+Content-Type: application/json
+
+{
+  "status": "OPEN"
+}
+
+### List comments
+GET {{baseUrl}}/api/v1/tickets/{{ticketId}}/comments
+
+### Add comment
+POST {{baseUrl}}/api/v1/tickets/{{ticketId}}/comments
+Content-Type: application/json
+
+{
+  "body": "Investigating root cause",
+  "author": "alice"
+}
+
+### OpenAPI JSON
+GET {{baseUrl}}/api-docs

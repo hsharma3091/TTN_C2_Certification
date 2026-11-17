@@ -1,0 +1,29 @@
+# Java
+backend/target/
+backend/data/
+*.class
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# IDE
+.idea/*
+!.idea/misc.xml
+!.idea/compiler.xml
+!.idea/encodings.xml
+!.idea/vcs.xml
+*.iml
+.vscode/
+
+# Shared IntelliJ run configs (commit these)
+!.run/
+
+# OS
+.DS_Store
+
+# Secrets
+.env
+.env.*
+!.env.example

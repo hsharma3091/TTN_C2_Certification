@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Support Tickets API
+  version: 1.0.0
+paths:
+  /api/v1/tickets:
+    get:
+      parameters:
+        - in: query
+          name: status
+          schema: { type: string, enum: [OPEN, IN_PROGRESS, RESOLVED, CLOSED, CANCELLED] }
+        - in: query
+          name: q
+          schema: { type: string }
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: { type: string }
+                description: { type: string }
+                priority: { type: string }
+                assignee: { type: string }
+  /api/v1/tickets/{id}/transitions:
+    post:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status: { type: string }
